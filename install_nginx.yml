@@ -1,0 +1,22 @@
+---
+- name: Install Nginx on servers
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Ensure Nginx is installed (Ubuntu)
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure Nginx is installed (CentOS)
+      yum:
+        name: nginx
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Start and enable Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
